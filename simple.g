@@ -18,6 +18,9 @@ grammar simple;
 
     // Conteo de llamadas a métodos (UNFOLDING)
     public HashMap<String, Integer> metodoLlamadas = new HashMap<String, Integer>();
+    // Conteo de marcas de metodos reducibles
+    public HashMap<String, Boolean> metodoReducible = new HashMap<String, Boolean>();
+
 
     // Conteo de errores por método y global
     public HashMap<String, Integer> erroresPorMetodo = new HashMap<String, Integer>();
@@ -113,6 +116,14 @@ grammar simple;
                 salida.append("OPT-UNF-02: Método '" + metodo + "' es llamado solo UNA VEZ (posible inlining/optimización)\n");
             }
         }
+        // Unfolding tipo 3
+for (String m : metodoReducible.keySet()) {
+    Boolean r = metodoReducible.get(m);
+    if (r != null && r == true) {
+        salida.append("OPT-UNF-03: El método '" + m + "' es reducible (puede inline completo)\n");
+    }
+}
+
         salida.append("--- FIN OPTIMIZACIÓN UNFOLDING ---\n");
     }
 }
@@ -173,6 +184,7 @@ method
             metodoLlamadas.put($id1.text, 0);            // UNFOLDING: inicializa contador de llamadas
             erroresPorMetodo.put($id1.text, 0);          // inicializa contador de errores por método
             metodoActual = $id1.text;                    // establecer el método actual para contabilizar errores
+            metodoReducible.put($id1.text, true);   // asumimos reducible hasta que se detecte algo no reducible
             if (salida != null) salida.append("\n>> Analizando método: " + metodoActual + "\n");
         }
       LPAREN decla_args? RPAREN
@@ -220,6 +232,9 @@ private_declar
     : t=type id1=ID { addSymbol(TSL, $id1.text, $t.text); }
       (',' id2=ID { addSymbol(TSL, $id2.text, $t.text); })*
       SEMICOLON
+      {
+        metodoReducible.put(metodoActual, false);
+      }
     ;
 
 // Asignación: además BTA (si expr.reducible => report OPT-BTA-03)
@@ -232,6 +247,7 @@ assigment
               if (salida != null) salida.append("Tipo de expr es: " + $e.eType + "\n");
               // Si la expresión es reducible en tiempo de compilación
               if ($e.reducible) {
+                 metodoReducible.put(metodoActual, false);
                   if (salida != null) salida.append("OPT-BTA-03: La expresión asignada a '" + $id1.text + "' puede reducirse en compilación\n");
               }
           }
@@ -293,7 +309,9 @@ atom returns [int aType, boolean reducible]
           registrarLlamadaMetodo($idcall.text);
           // Tipo resultante: buscamos tipo de retorno del método en TSG
           $aType = searchSymbol($idcall.text);
-          $reducible = false; // llamas a función: por defecto no reducible en compilación
+ // llamas a función: por defecto no reducible en compilación          
+          Boolean red = metodoReducible.get($idcall.text);
+          $reducible = (red != null && red == true);
       }
     | id=ID {
           $aType = searchSymbol($id.text);
@@ -329,6 +347,7 @@ relExpr returns [int rType]
 // -----------------------------
 doWhileStmt
     : DO OCURLYB sentences* CCURLYB WHILE LPAREN cond=relExpr RPAREN SEMICOLON {
+        metodoReducible.put(metodoActual, false);
           if ($cond.rType != 4) {
               registrarError("Error: condición de do-while no es booleana");
           } else {
@@ -342,6 +361,12 @@ doWhileStmt
 methodCallStmt
     : idcall=ID LPAREN listaArgs? RPAREN SEMICOLON {
           registrarLlamadaMetodo($idcall.text);
+          // Si llama un método no reducible, el actual deja de ser reducible
+             Boolean red = metodoReducible.get($idcall.text);
+             if (red != null && red == false) {
+            metodoReducible.put(metodoActual, false);
+            }
+
       }
     ;
 

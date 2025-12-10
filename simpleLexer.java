@@ -1,4 +1,4 @@
-// $ANTLR 3.5.2 simple.g 2025-12-09 18:08:51
+// $ANTLR 3.5.2 simple.g 2025-12-10 09:55:06
 
 import org.antlr.runtime.*;
 import java.util.Stack;
@@ -305,8 +305,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = CLASS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:354:13: ( 'class' )
-			// simple.g:354:15: 'class'
+			// simple.g:379:13: ( 'class' )
+			// simple.g:379:15: 'class'
 			{
 			match("class"); 
 
@@ -326,8 +326,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = INT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:355:13: ( 'int' )
-			// simple.g:355:15: 'int'
+			// simple.g:380:13: ( 'int' )
+			// simple.g:380:15: 'int'
 			{
 			match("int"); 
 
@@ -347,8 +347,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = DOUBLE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:356:13: ( 'double' )
-			// simple.g:356:15: 'double'
+			// simple.g:381:13: ( 'double' )
+			// simple.g:381:15: 'double'
 			{
 			match("double"); 
 
@@ -368,8 +368,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = BOOLEAN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:357:13: ( 'boolean' )
-			// simple.g:357:15: 'boolean'
+			// simple.g:382:13: ( 'boolean' )
+			// simple.g:382:15: 'boolean'
 			{
 			match("boolean"); 
 
@@ -389,8 +389,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = PUBLIC;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:358:13: ( 'public' )
-			// simple.g:358:15: 'public'
+			// simple.g:383:13: ( 'public' )
+			// simple.g:383:15: 'public'
 			{
 			match("public"); 
 
@@ -410,8 +410,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = PRIVATE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:359:13: ( 'private' )
-			// simple.g:359:15: 'private'
+			// simple.g:384:13: ( 'private' )
+			// simple.g:384:15: 'private'
 			{
 			match("private"); 
 
@@ -431,8 +431,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = PROTECTED;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:360:13: ( 'protected' )
-			// simple.g:360:15: 'protected'
+			// simple.g:385:13: ( 'protected' )
+			// simple.g:385:15: 'protected'
 			{
 			match("protected"); 
 
@@ -452,8 +452,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = DO;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:361:13: ( 'do' )
-			// simple.g:361:15: 'do'
+			// simple.g:386:13: ( 'do' )
+			// simple.g:386:15: 'do'
 			{
 			match("do"); 
 
@@ -473,8 +473,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = WHILE;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:362:13: ( 'while' )
-			// simple.g:362:15: 'while'
+			// simple.g:387:13: ( 'while' )
+			// simple.g:387:15: 'while'
 			{
 			match("while"); 
 
@@ -494,8 +494,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = RETURN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:363:13: ( 'return' )
-			// simple.g:363:15: 'return'
+			// simple.g:388:13: ( 'return' )
+			// simple.g:388:15: 'return'
 			{
 			match("return"); 
 
@@ -515,8 +515,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = OCURLYB;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:364:13: ( '{' )
-			// simple.g:364:15: '{'
+			// simple.g:389:13: ( '{' )
+			// simple.g:389:15: '{'
 			{
 			match('{'); 
 			}
@@ -535,8 +535,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = CCURLYB;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:365:13: ( '}' )
-			// simple.g:365:15: '}'
+			// simple.g:390:13: ( '}' )
+			// simple.g:390:15: '}'
 			{
 			match('}'); 
 			}
@@ -555,8 +555,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = LPAREN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:366:13: ( '(' )
-			// simple.g:366:15: '('
+			// simple.g:391:13: ( '(' )
+			// simple.g:391:15: '('
 			{
 			match('('); 
 			}
@@ -575,8 +575,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = RPAREN;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:367:13: ( ')' )
-			// simple.g:367:15: ')'
+			// simple.g:392:13: ( ')' )
+			// simple.g:392:15: ')'
 			{
 			match(')'); 
 			}
@@ -595,8 +595,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = SEMICOLON;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:368:13: ( ';' )
-			// simple.g:368:15: ';'
+			// simple.g:393:13: ( ';' )
+			// simple.g:393:15: ';'
 			{
 			match(';'); 
 			}
@@ -615,8 +615,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = CFLOAT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:369:13: ( CINT DOT CINT )
-			// simple.g:369:15: CINT DOT CINT
+			// simple.g:394:13: ( CINT DOT CINT )
+			// simple.g:394:15: CINT DOT CINT
 			{
 			mCINT(); 
 
@@ -640,10 +640,10 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = CINT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:370:13: ( ( '0' .. '9' )+ )
-			// simple.g:370:15: ( '0' .. '9' )+
+			// simple.g:395:13: ( ( '0' .. '9' )+ )
+			// simple.g:395:15: ( '0' .. '9' )+
 			{
-			// simple.g:370:15: ( '0' .. '9' )+
+			// simple.g:395:15: ( '0' .. '9' )+
 			int cnt1=0;
 			loop1:
 			while (true) {
@@ -692,8 +692,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = ID;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:371:13: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
-			// simple.g:371:15: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+			// simple.g:396:13: ( ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )* )
+			// simple.g:396:15: ( 'a' .. 'z' | 'A' .. 'Z' | '_' ) ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
 			{
 			if ( (input.LA(1) >= 'A' && input.LA(1) <= 'Z')||input.LA(1)=='_'||(input.LA(1) >= 'a' && input.LA(1) <= 'z') ) {
 				input.consume();
@@ -703,7 +703,7 @@ public class simpleLexer extends Lexer {
 				recover(mse);
 				throw mse;
 			}
-			// simple.g:371:44: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
+			// simple.g:396:44: ( 'a' .. 'z' | 'A' .. 'Z' | '_' | '0' .. '9' )*
 			loop2:
 			while (true) {
 				int alt2=2;
@@ -748,8 +748,8 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = DOT;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:372:13: ( '.' )
-			// simple.g:372:15: '.'
+			// simple.g:397:13: ( '.' )
+			// simple.g:397:15: '.'
 			{
 			match('.'); 
 			}
@@ -768,10 +768,10 @@ public class simpleLexer extends Lexer {
 		try {
 			int _type = WS;
 			int _channel = DEFAULT_TOKEN_CHANNEL;
-			// simple.g:373:13: ( ( ' ' | '\\n' | '\\t' | '\\r' )+ )
-			// simple.g:373:15: ( ' ' | '\\n' | '\\t' | '\\r' )+
+			// simple.g:398:13: ( ( ' ' | '\\n' | '\\t' | '\\r' )+ )
+			// simple.g:398:15: ( ' ' | '\\n' | '\\t' | '\\r' )+
 			{
-			// simple.g:373:15: ( ' ' | '\\n' | '\\t' | '\\r' )+
+			// simple.g:398:15: ( ' ' | '\\n' | '\\t' | '\\r' )+
 			int cnt3=0;
 			loop3:
 			while (true) {

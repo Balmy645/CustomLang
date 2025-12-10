@@ -1,4 +1,4 @@
-// $ANTLR 3.5.2 simple.g 2025-12-09 18:08:50
+// $ANTLR 3.5.2 simple.g 2025-12-10 09:55:06
 
     import java.util.HashMap;
     import java.util.Map;
@@ -81,6 +81,9 @@ public class simpleParser extends Parser {
 
 	    // Conteo de llamadas a métodos (UNFOLDING)
 	    public HashMap<String, Integer> metodoLlamadas = new HashMap<String, Integer>();
+	    // Conteo de marcas de metodos reducibles
+	    public HashMap<String, Boolean> metodoReducible = new HashMap<String, Boolean>();
+
 
 	    // Conteo de errores por método y global
 	    public HashMap<String, Integer> erroresPorMetodo = new HashMap<String, Integer>();
@@ -176,19 +179,27 @@ public class simpleParser extends Parser {
 	                salida.append("OPT-UNF-02: Método '" + metodo + "' es llamado solo UNA VEZ (posible inlining/optimización)\n");
 	            }
 	        }
+	        // Unfolding tipo 3
+	for (String m : metodoReducible.keySet()) {
+	    Boolean r = metodoReducible.get(m);
+	    if (r != null && r == true) {
+	        salida.append("OPT-UNF-03: El método '" + m + "' es reducible (puede inline completo)\n");
+	    }
+	}
+
 	        salida.append("--- FIN OPTIMIZACIÓN UNFOLDING ---\n");
 	    }
 
 
 
 	// $ANTLR start "program"
-	// simple.g:123:1: program : ( theClass )+ ;
+	// simple.g:134:1: program : ( theClass )+ ;
 	public final void program() throws RecognitionException {
 		try {
-			// simple.g:124:5: ( ( theClass )+ )
-			// simple.g:124:7: ( theClass )+
+			// simple.g:135:5: ( ( theClass )+ )
+			// simple.g:135:7: ( theClass )+
 			{
-			// simple.g:124:7: ( theClass )+
+			// simple.g:135:7: ( theClass )+
 			int cnt1=0;
 			loop1:
 			while (true) {
@@ -200,7 +211,7 @@ public class simpleParser extends Parser {
 
 				switch (alt1) {
 				case 1 :
-					// simple.g:124:7: theClass
+					// simple.g:135:7: theClass
 					{
 					pushFollow(FOLLOW_theClass_in_program31);
 					theClass();
@@ -239,13 +250,13 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "theClass"
-	// simple.g:135:1: theClass : accessModif CLASS id1= ID OCURLYB ( member )* CCURLYB ;
+	// simple.g:146:1: theClass : accessModif CLASS id1= ID OCURLYB ( member )* CCURLYB ;
 	public final void theClass() throws RecognitionException {
 		Token id1=null;
 
 		try {
-			// simple.g:136:5: ( accessModif CLASS id1= ID OCURLYB ( member )* CCURLYB )
-			// simple.g:136:7: accessModif CLASS id1= ID OCURLYB ( member )* CCURLYB
+			// simple.g:147:5: ( accessModif CLASS id1= ID OCURLYB ( member )* CCURLYB )
+			// simple.g:147:7: accessModif CLASS id1= ID OCURLYB ( member )* CCURLYB
 			{
 			pushFollow(FOLLOW_accessModif_in_theClass54);
 			accessModif();
@@ -261,7 +272,7 @@ public class simpleParser extends Parser {
 			          metodoLlamadas.clear();
 			      
 			match(input,OCURLYB,FOLLOW_OCURLYB_in_theClass70); 
-			// simple.g:143:15: ( member )*
+			// simple.g:154:15: ( member )*
 			loop2:
 			while (true) {
 				int alt2=2;
@@ -272,7 +283,7 @@ public class simpleParser extends Parser {
 
 				switch (alt2) {
 				case 1 :
-					// simple.g:143:15: member
+					// simple.g:154:15: member
 					{
 					pushFollow(FOLLOW_member_in_theClass72);
 					member();
@@ -307,10 +318,10 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "member"
-	// simple.g:151:1: member : ( method | property );
+	// simple.g:162:1: member : ( method | property );
 	public final void member() throws RecognitionException {
 		try {
-			// simple.g:152:5: ( method | property )
+			// simple.g:163:5: ( method | property )
 			int alt3=2;
 			int LA3_0 = input.LA(1);
 			if ( ((LA3_0 >= PRIVATE && LA3_0 <= PUBLIC)) ) {
@@ -420,7 +431,7 @@ public class simpleParser extends Parser {
 
 			switch (alt3) {
 				case 1 :
-					// simple.g:152:7: method
+					// simple.g:163:7: method
 					{
 					pushFollow(FOLLOW_method_in_member101);
 					method();
@@ -429,7 +440,7 @@ public class simpleParser extends Parser {
 					}
 					break;
 				case 2 :
-					// simple.g:153:7: property
+					// simple.g:164:7: property
 					{
 					pushFollow(FOLLOW_property_in_member109);
 					property();
@@ -453,17 +464,17 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "property"
-	// simple.g:157:1: property : ( accessModif )? t= type id1= ID ( ',' id2= ID )* SEMICOLON ;
+	// simple.g:168:1: property : ( accessModif )? t= type id1= ID ( ',' id2= ID )* SEMICOLON ;
 	public final void property() throws RecognitionException {
 		Token id1=null;
 		Token id2=null;
 		ParserRuleReturnScope t =null;
 
 		try {
-			// simple.g:158:5: ( ( accessModif )? t= type id1= ID ( ',' id2= ID )* SEMICOLON )
-			// simple.g:158:7: ( accessModif )? t= type id1= ID ( ',' id2= ID )* SEMICOLON
+			// simple.g:169:5: ( ( accessModif )? t= type id1= ID ( ',' id2= ID )* SEMICOLON )
+			// simple.g:169:7: ( accessModif )? t= type id1= ID ( ',' id2= ID )* SEMICOLON
 			{
-			// simple.g:158:7: ( accessModif )?
+			// simple.g:169:7: ( accessModif )?
 			int alt4=2;
 			int LA4_0 = input.LA(1);
 			if ( ((LA4_0 >= PRIVATE && LA4_0 <= PUBLIC)) ) {
@@ -471,7 +482,7 @@ public class simpleParser extends Parser {
 			}
 			switch (alt4) {
 				case 1 :
-					// simple.g:158:8: accessModif
+					// simple.g:169:8: accessModif
 					{
 					pushFollow(FOLLOW_accessModif_in_property128);
 					accessModif();
@@ -490,7 +501,7 @@ public class simpleParser extends Parser {
 
 			          addSymbol(TSG, (id1!=null?id1.getText():null), (t!=null?input.toString(t.start,t.stop):null));
 			      
-			// simple.g:161:7: ( ',' id2= ID )*
+			// simple.g:172:7: ( ',' id2= ID )*
 			loop5:
 			while (true) {
 				int alt5=2;
@@ -501,7 +512,7 @@ public class simpleParser extends Parser {
 
 				switch (alt5) {
 				case 1 :
-					// simple.g:161:8: ',' id2= ID
+					// simple.g:172:8: ',' id2= ID
 					{
 					match(input,27,FOLLOW_27_in_property149); 
 					id2=(Token)match(input,ID,FOLLOW_ID_in_property153); 
@@ -531,16 +542,16 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "method"
-	// simple.g:168:1: method : ( accessModif )? retType= type id1= ID LPAREN ( decla_args )? RPAREN OCURLYB ( sentences )* CCURLYB ;
+	// simple.g:179:1: method : ( accessModif )? retType= type id1= ID LPAREN ( decla_args )? RPAREN OCURLYB ( sentences )* CCURLYB ;
 	public final void method() throws RecognitionException {
 		Token id1=null;
 		ParserRuleReturnScope retType =null;
 
 		try {
-			// simple.g:169:5: ( ( accessModif )? retType= type id1= ID LPAREN ( decla_args )? RPAREN OCURLYB ( sentences )* CCURLYB )
-			// simple.g:169:7: ( accessModif )? retType= type id1= ID LPAREN ( decla_args )? RPAREN OCURLYB ( sentences )* CCURLYB
+			// simple.g:180:5: ( ( accessModif )? retType= type id1= ID LPAREN ( decla_args )? RPAREN OCURLYB ( sentences )* CCURLYB )
+			// simple.g:180:7: ( accessModif )? retType= type id1= ID LPAREN ( decla_args )? RPAREN OCURLYB ( sentences )* CCURLYB
 			{
-			// simple.g:169:7: ( accessModif )?
+			// simple.g:180:7: ( accessModif )?
 			int alt6=2;
 			int LA6_0 = input.LA(1);
 			if ( ((LA6_0 >= PRIVATE && LA6_0 <= PUBLIC)) ) {
@@ -548,7 +559,7 @@ public class simpleParser extends Parser {
 			}
 			switch (alt6) {
 				case 1 :
-					// simple.g:169:8: accessModif
+					// simple.g:180:8: accessModif
 					{
 					pushFollow(FOLLOW_accessModif_in_method186);
 					accessModif();
@@ -570,10 +581,11 @@ public class simpleParser extends Parser {
 			            metodoLlamadas.put((id1!=null?id1.getText():null), 0);            // UNFOLDING: inicializa contador de llamadas
 			            erroresPorMetodo.put((id1!=null?id1.getText():null), 0);          // inicializa contador de errores por método
 			            metodoActual = (id1!=null?id1.getText():null);                    // establecer el método actual para contabilizar errores
+			            metodoReducible.put((id1!=null?id1.getText():null), true);   // asumimos reducible hasta que se detecte algo no reducible
 			            if (salida != null) salida.append("\n>> Analizando método: " + metodoActual + "\n");
 			        
 			match(input,LPAREN,FOLLOW_LPAREN_in_method214); 
-			// simple.g:178:14: ( decla_args )?
+			// simple.g:190:14: ( decla_args )?
 			int alt7=2;
 			int LA7_0 = input.LA(1);
 			if ( (LA7_0==BOOLEAN||LA7_0==DOUBLE||LA7_0==INT) ) {
@@ -581,7 +593,7 @@ public class simpleParser extends Parser {
 			}
 			switch (alt7) {
 				case 1 :
-					// simple.g:178:14: decla_args
+					// simple.g:190:14: decla_args
 					{
 					pushFollow(FOLLOW_decla_args_in_method216);
 					decla_args();
@@ -604,7 +616,7 @@ public class simpleParser extends Parser {
 			          printTables();
 			      
 			match(input,OCURLYB,FOLLOW_OCURLYB_in_method235); 
-			// simple.g:189:15: ( sentences )*
+			// simple.g:201:15: ( sentences )*
 			loop8:
 			while (true) {
 				int alt8=2;
@@ -615,7 +627,7 @@ public class simpleParser extends Parser {
 
 				switch (alt8) {
 				case 1 :
-					// simple.g:189:15: sentences
+					// simple.g:201:15: sentences
 					{
 					pushFollow(FOLLOW_sentences_in_method237);
 					sentences();
@@ -654,7 +666,7 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "decla_args"
-	// simple.g:201:1: decla_args : t1= type id1= ID ( ',' t2= type id2= ID )* ;
+	// simple.g:213:1: decla_args : t1= type id1= ID ( ',' t2= type id2= ID )* ;
 	public final void decla_args() throws RecognitionException {
 		Token id1=null;
 		Token id2=null;
@@ -662,8 +674,8 @@ public class simpleParser extends Parser {
 		ParserRuleReturnScope t2 =null;
 
 		try {
-			// simple.g:202:5: (t1= type id1= ID ( ',' t2= type id2= ID )* )
-			// simple.g:202:7: t1= type id1= ID ( ',' t2= type id2= ID )*
+			// simple.g:214:5: (t1= type id1= ID ( ',' t2= type id2= ID )* )
+			// simple.g:214:7: t1= type id1= ID ( ',' t2= type id2= ID )*
 			{
 			pushFollow(FOLLOW_type_in_decla_args268);
 			t1=type();
@@ -671,7 +683,7 @@ public class simpleParser extends Parser {
 
 			id1=(Token)match(input,ID,FOLLOW_ID_in_decla_args272); 
 			 addSymbol(TArgs, (id1!=null?id1.getText():null), (t1!=null?input.toString(t1.start,t1.stop):null)); 
-			// simple.g:203:7: ( ',' t2= type id2= ID )*
+			// simple.g:215:7: ( ',' t2= type id2= ID )*
 			loop9:
 			while (true) {
 				int alt9=2;
@@ -682,7 +694,7 @@ public class simpleParser extends Parser {
 
 				switch (alt9) {
 				case 1 :
-					// simple.g:203:8: ',' t2= type id2= ID
+					// simple.g:215:8: ',' t2= type id2= ID
 					{
 					match(input,27,FOLLOW_27_in_decla_args283); 
 					pushFollow(FOLLOW_type_in_decla_args287);
@@ -715,10 +727,10 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "sentences"
-	// simple.g:209:1: sentences : ( private_declar | assigment | doWhileStmt | returnStmt | methodCallStmt );
+	// simple.g:221:1: sentences : ( private_declar | assigment | doWhileStmt | returnStmt | methodCallStmt );
 	public final void sentences() throws RecognitionException {
 		try {
-			// simple.g:210:5: ( private_declar | assigment | doWhileStmt | returnStmt | methodCallStmt )
+			// simple.g:222:5: ( private_declar | assigment | doWhileStmt | returnStmt | methodCallStmt )
 			int alt10=5;
 			switch ( input.LA(1) ) {
 			case BOOLEAN:
@@ -769,7 +781,7 @@ public class simpleParser extends Parser {
 			}
 			switch (alt10) {
 				case 1 :
-					// simple.g:210:7: private_declar
+					// simple.g:222:7: private_declar
 					{
 					pushFollow(FOLLOW_private_declar_in_sentences315);
 					private_declar();
@@ -778,7 +790,7 @@ public class simpleParser extends Parser {
 					}
 					break;
 				case 2 :
-					// simple.g:211:7: assigment
+					// simple.g:223:7: assigment
 					{
 					pushFollow(FOLLOW_assigment_in_sentences323);
 					assigment();
@@ -787,7 +799,7 @@ public class simpleParser extends Parser {
 					}
 					break;
 				case 3 :
-					// simple.g:212:7: doWhileStmt
+					// simple.g:224:7: doWhileStmt
 					{
 					pushFollow(FOLLOW_doWhileStmt_in_sentences331);
 					doWhileStmt();
@@ -796,7 +808,7 @@ public class simpleParser extends Parser {
 					}
 					break;
 				case 4 :
-					// simple.g:213:7: returnStmt
+					// simple.g:225:7: returnStmt
 					{
 					pushFollow(FOLLOW_returnStmt_in_sentences339);
 					returnStmt();
@@ -805,7 +817,7 @@ public class simpleParser extends Parser {
 					}
 					break;
 				case 5 :
-					// simple.g:214:7: methodCallStmt
+					// simple.g:226:7: methodCallStmt
 					{
 					pushFollow(FOLLOW_methodCallStmt_in_sentences347);
 					methodCallStmt();
@@ -829,15 +841,15 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "private_declar"
-	// simple.g:219:1: private_declar : t= type id1= ID ( ',' id2= ID )* SEMICOLON ;
+	// simple.g:231:1: private_declar : t= type id1= ID ( ',' id2= ID )* SEMICOLON ;
 	public final void private_declar() throws RecognitionException {
 		Token id1=null;
 		Token id2=null;
 		ParserRuleReturnScope t =null;
 
 		try {
-			// simple.g:220:5: (t= type id1= ID ( ',' id2= ID )* SEMICOLON )
-			// simple.g:220:7: t= type id1= ID ( ',' id2= ID )* SEMICOLON
+			// simple.g:232:5: (t= type id1= ID ( ',' id2= ID )* SEMICOLON )
+			// simple.g:232:7: t= type id1= ID ( ',' id2= ID )* SEMICOLON
 			{
 			pushFollow(FOLLOW_type_in_private_declar368);
 			t=type();
@@ -845,7 +857,7 @@ public class simpleParser extends Parser {
 
 			id1=(Token)match(input,ID,FOLLOW_ID_in_private_declar372); 
 			 addSymbol(TSL, (id1!=null?id1.getText():null), (t!=null?input.toString(t.start,t.stop):null)); 
-			// simple.g:221:7: ( ',' id2= ID )*
+			// simple.g:233:7: ( ',' id2= ID )*
 			loop11:
 			while (true) {
 				int alt11=2;
@@ -856,7 +868,7 @@ public class simpleParser extends Parser {
 
 				switch (alt11) {
 				case 1 :
-					// simple.g:221:8: ',' id2= ID
+					// simple.g:233:8: ',' id2= ID
 					{
 					match(input,27,FOLLOW_27_in_private_declar383); 
 					id2=(Token)match(input,ID,FOLLOW_ID_in_private_declar387); 
@@ -870,6 +882,9 @@ public class simpleParser extends Parser {
 			}
 
 			match(input,SEMICOLON,FOLLOW_SEMICOLON_in_private_declar399); 
+
+			        metodoReducible.put(metodoActual, false);
+			      
 			}
 
 		}
@@ -886,22 +901,22 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "assigment"
-	// simple.g:226:1: assigment : id1= ID '=' e= expr SEMICOLON ;
+	// simple.g:241:1: assigment : id1= ID '=' e= expr SEMICOLON ;
 	public final void assigment() throws RecognitionException {
 		Token id1=null;
 		ParserRuleReturnScope e =null;
 
 		try {
-			// simple.g:227:5: (id1= ID '=' e= expr SEMICOLON )
-			// simple.g:227:7: id1= ID '=' e= expr SEMICOLON
+			// simple.g:242:5: (id1= ID '=' e= expr SEMICOLON )
+			// simple.g:242:7: id1= ID '=' e= expr SEMICOLON
 			{
-			id1=(Token)match(input,ID,FOLLOW_ID_in_assigment419); 
-			match(input,32,FOLLOW_32_in_assigment421); 
-			pushFollow(FOLLOW_expr_in_assigment425);
+			id1=(Token)match(input,ID,FOLLOW_ID_in_assigment427); 
+			match(input,32,FOLLOW_32_in_assigment429); 
+			pushFollow(FOLLOW_expr_in_assigment433);
 			e=expr();
 			state._fsp--;
 
-			match(input,SEMICOLON,FOLLOW_SEMICOLON_in_assigment427); 
+			match(input,SEMICOLON,FOLLOW_SEMICOLON_in_assigment435); 
 
 			          if ((e!=null?((simpleParser.expr_return)e).eType:0) == 3) {
 			              registrarError("ERR-M: tipo incompatible en la asignación de " + (id1!=null?id1.getText():null));
@@ -909,6 +924,7 @@ public class simpleParser extends Parser {
 			              if (salida != null) salida.append("Tipo de expr es: " + (e!=null?((simpleParser.expr_return)e).eType:0) + "\n");
 			              // Si la expresión es reducible en tiempo de compilación
 			              if ((e!=null?((simpleParser.expr_return)e).reducible:false)) {
+			                 metodoReducible.put(metodoActual, false);
 			                  if (salida != null) salida.append("OPT-BTA-03: La expresión asignada a '" + (id1!=null?id1.getText():null) + "' puede reducirse en compilación\n");
 			              }
 			          }
@@ -934,7 +950,7 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "expr"
-	// simple.g:245:1: expr returns [int eType, boolean reducible] : m1= multExpr (op= ( '+' | '-' ) m2= multExpr )* ;
+	// simple.g:261:1: expr returns [int eType, boolean reducible] : m1= multExpr (op= ( '+' | '-' ) m2= multExpr )* ;
 	public final simpleParser.expr_return expr() throws RecognitionException {
 		simpleParser.expr_return retval = new simpleParser.expr_return();
 		retval.start = input.LT(1);
@@ -944,10 +960,10 @@ public class simpleParser extends Parser {
 		ParserRuleReturnScope m2 =null;
 
 		try {
-			// simple.g:246:5: (m1= multExpr (op= ( '+' | '-' ) m2= multExpr )* )
-			// simple.g:246:7: m1= multExpr (op= ( '+' | '-' ) m2= multExpr )*
+			// simple.g:262:5: (m1= multExpr (op= ( '+' | '-' ) m2= multExpr )* )
+			// simple.g:262:7: m1= multExpr (op= ( '+' | '-' ) m2= multExpr )*
 			{
-			pushFollow(FOLLOW_multExpr_in_expr462);
+			pushFollow(FOLLOW_multExpr_in_expr470);
 			m1=multExpr();
 			state._fsp--;
 
@@ -955,7 +971,7 @@ public class simpleParser extends Parser {
 			          retval.eType = (m1!=null?((simpleParser.multExpr_return)m1).mType:0);
 			          retval.reducible = (m1!=null?((simpleParser.multExpr_return)m1).reducible:false);
 			      
-			// simple.g:250:7: (op= ( '+' | '-' ) m2= multExpr )*
+			// simple.g:266:7: (op= ( '+' | '-' ) m2= multExpr )*
 			loop12:
 			while (true) {
 				int alt12=2;
@@ -966,7 +982,7 @@ public class simpleParser extends Parser {
 
 				switch (alt12) {
 				case 1 :
-					// simple.g:250:9: op= ( '+' | '-' ) m2= multExpr
+					// simple.g:266:9: op= ( '+' | '-' ) m2= multExpr
 					{
 					op=input.LT(1);
 					if ( input.LA(1)==26||input.LA(1)==28 ) {
@@ -977,7 +993,7 @@ public class simpleParser extends Parser {
 						MismatchedSetException mse = new MismatchedSetException(null,input);
 						throw mse;
 					}
-					pushFollow(FOLLOW_multExpr_in_expr486);
+					pushFollow(FOLLOW_multExpr_in_expr494);
 					m2=multExpr();
 					state._fsp--;
 
@@ -1016,10 +1032,10 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "returnStmt"
-	// simple.g:260:1: returnStmt : ( RETURN SEMICOLON | RETURN expr SEMICOLON );
+	// simple.g:276:1: returnStmt : ( RETURN SEMICOLON | RETURN expr SEMICOLON );
 	public final void returnStmt() throws RecognitionException {
 		try {
-			// simple.g:261:5: ( RETURN SEMICOLON | RETURN expr SEMICOLON )
+			// simple.g:277:5: ( RETURN SEMICOLON | RETURN expr SEMICOLON )
 			int alt13=2;
 			int LA13_0 = input.LA(1);
 			if ( (LA13_0==RETURN) ) {
@@ -1053,21 +1069,21 @@ public class simpleParser extends Parser {
 
 			switch (alt13) {
 				case 1 :
-					// simple.g:261:7: RETURN SEMICOLON
+					// simple.g:277:7: RETURN SEMICOLON
 					{
-					match(input,RETURN,FOLLOW_RETURN_in_returnStmt507); 
-					match(input,SEMICOLON,FOLLOW_SEMICOLON_in_returnStmt509); 
+					match(input,RETURN,FOLLOW_RETURN_in_returnStmt515); 
+					match(input,SEMICOLON,FOLLOW_SEMICOLON_in_returnStmt517); 
 					}
 					break;
 				case 2 :
-					// simple.g:262:7: RETURN expr SEMICOLON
+					// simple.g:278:7: RETURN expr SEMICOLON
 					{
-					match(input,RETURN,FOLLOW_RETURN_in_returnStmt517); 
-					pushFollow(FOLLOW_expr_in_returnStmt519);
+					match(input,RETURN,FOLLOW_RETURN_in_returnStmt525); 
+					pushFollow(FOLLOW_expr_in_returnStmt527);
 					expr();
 					state._fsp--;
 
-					match(input,SEMICOLON,FOLLOW_SEMICOLON_in_returnStmt521); 
+					match(input,SEMICOLON,FOLLOW_SEMICOLON_in_returnStmt529); 
 					}
 					break;
 
@@ -1091,7 +1107,7 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "multExpr"
-	// simple.g:267:1: multExpr returns [int mType, boolean reducible] : a1= atom (op= ( '*' | '/' ) a2= atom )* ;
+	// simple.g:283:1: multExpr returns [int mType, boolean reducible] : a1= atom (op= ( '*' | '/' ) a2= atom )* ;
 	public final simpleParser.multExpr_return multExpr() throws RecognitionException {
 		simpleParser.multExpr_return retval = new simpleParser.multExpr_return();
 		retval.start = input.LT(1);
@@ -1101,10 +1117,10 @@ public class simpleParser extends Parser {
 		ParserRuleReturnScope a2 =null;
 
 		try {
-			// simple.g:268:5: (a1= atom (op= ( '*' | '/' ) a2= atom )* )
-			// simple.g:268:7: a1= atom (op= ( '*' | '/' ) a2= atom )*
+			// simple.g:284:5: (a1= atom (op= ( '*' | '/' ) a2= atom )* )
+			// simple.g:284:7: a1= atom (op= ( '*' | '/' ) a2= atom )*
 			{
-			pushFollow(FOLLOW_atom_in_multExpr546);
+			pushFollow(FOLLOW_atom_in_multExpr554);
 			a1=atom();
 			state._fsp--;
 
@@ -1112,7 +1128,7 @@ public class simpleParser extends Parser {
 			          retval.mType = (a1!=null?((simpleParser.atom_return)a1).aType:0);
 			          retval.reducible = (a1!=null?((simpleParser.atom_return)a1).reducible:false);
 			      
-			// simple.g:272:7: (op= ( '*' | '/' ) a2= atom )*
+			// simple.g:288:7: (op= ( '*' | '/' ) a2= atom )*
 			loop14:
 			while (true) {
 				int alt14=2;
@@ -1123,7 +1139,7 @@ public class simpleParser extends Parser {
 
 				switch (alt14) {
 				case 1 :
-					// simple.g:272:9: op= ( '*' | '/' ) a2= atom
+					// simple.g:288:9: op= ( '*' | '/' ) a2= atom
 					{
 					op=input.LT(1);
 					if ( input.LA(1)==25||input.LA(1)==29 ) {
@@ -1134,7 +1150,7 @@ public class simpleParser extends Parser {
 						MismatchedSetException mse = new MismatchedSetException(null,input);
 						throw mse;
 					}
-					pushFollow(FOLLOW_atom_in_multExpr570);
+					pushFollow(FOLLOW_atom_in_multExpr578);
 					a2=atom();
 					state._fsp--;
 
@@ -1177,7 +1193,7 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "atom"
-	// simple.g:282:1: atom returns [int aType, boolean reducible] : ( CINT | CFLOAT |idcall= ID LPAREN ( listaArgs )? RPAREN |id= ID | LPAREN e= expr RPAREN );
+	// simple.g:298:1: atom returns [int aType, boolean reducible] : ( CINT | CFLOAT |idcall= ID LPAREN ( listaArgs )? RPAREN |id= ID | LPAREN e= expr RPAREN );
 	public final simpleParser.atom_return atom() throws RecognitionException {
 		simpleParser.atom_return retval = new simpleParser.atom_return();
 		retval.start = input.LT(1);
@@ -1187,7 +1203,7 @@ public class simpleParser extends Parser {
 		ParserRuleReturnScope e =null;
 
 		try {
-			// simple.g:283:5: ( CINT | CFLOAT |idcall= ID LPAREN ( listaArgs )? RPAREN |id= ID | LPAREN e= expr RPAREN )
+			// simple.g:299:5: ( CINT | CFLOAT |idcall= ID LPAREN ( listaArgs )? RPAREN |id= ID | LPAREN e= expr RPAREN )
 			int alt16=5;
 			switch ( input.LA(1) ) {
 			case CINT:
@@ -1236,9 +1252,9 @@ public class simpleParser extends Parser {
 			}
 			switch (alt16) {
 				case 1 :
-					// simple.g:283:7: CINT
+					// simple.g:299:7: CINT
 					{
-					match(input,CINT,FOLLOW_CINT_in_atom596); 
+					match(input,CINT,FOLLOW_CINT_in_atom604); 
 
 					          retval.aType = 1;
 					          retval.reducible = true;   // constante entera -> reducible
@@ -1246,9 +1262,9 @@ public class simpleParser extends Parser {
 					}
 					break;
 				case 2 :
-					// simple.g:287:7: CFLOAT
+					// simple.g:303:7: CFLOAT
 					{
-					match(input,CFLOAT,FOLLOW_CFLOAT_in_atom606); 
+					match(input,CFLOAT,FOLLOW_CFLOAT_in_atom614); 
 
 					          retval.aType = 2;
 					          retval.reducible = true;   // constante float -> reducible
@@ -1256,11 +1272,11 @@ public class simpleParser extends Parser {
 					}
 					break;
 				case 3 :
-					// simple.g:291:7: idcall= ID LPAREN ( listaArgs )? RPAREN
+					// simple.g:307:7: idcall= ID LPAREN ( listaArgs )? RPAREN
 					{
-					idcall=(Token)match(input,ID,FOLLOW_ID_in_atom618); 
-					match(input,LPAREN,FOLLOW_LPAREN_in_atom620); 
-					// simple.g:291:24: ( listaArgs )?
+					idcall=(Token)match(input,ID,FOLLOW_ID_in_atom626); 
+					match(input,LPAREN,FOLLOW_LPAREN_in_atom628); 
+					// simple.g:307:24: ( listaArgs )?
 					int alt15=2;
 					int LA15_0 = input.LA(1);
 					if ( ((LA15_0 >= CFLOAT && LA15_0 <= CINT)||LA15_0==ID||LA15_0==LPAREN) ) {
@@ -1268,9 +1284,9 @@ public class simpleParser extends Parser {
 					}
 					switch (alt15) {
 						case 1 :
-							// simple.g:291:24: listaArgs
+							// simple.g:307:24: listaArgs
 							{
-							pushFollow(FOLLOW_listaArgs_in_atom622);
+							pushFollow(FOLLOW_listaArgs_in_atom630);
 							listaArgs();
 							state._fsp--;
 
@@ -1279,20 +1295,22 @@ public class simpleParser extends Parser {
 
 					}
 
-					match(input,RPAREN,FOLLOW_RPAREN_in_atom625); 
+					match(input,RPAREN,FOLLOW_RPAREN_in_atom633); 
 
 					          // Llamada a método: registrar llamada (UNFOLDING)
 					          registrarLlamadaMetodo((idcall!=null?idcall.getText():null));
 					          // Tipo resultante: buscamos tipo de retorno del método en TSG
 					          retval.aType = searchSymbol((idcall!=null?idcall.getText():null));
-					          retval.reducible = false; // llamas a función: por defecto no reducible en compilación
+					 // llamas a función: por defecto no reducible en compilación          
+					          Boolean red = metodoReducible.get((idcall!=null?idcall.getText():null));
+					          retval.reducible = (red != null && red == true);
 					      
 					}
 					break;
 				case 4 :
-					// simple.g:298:7: id= ID
+					// simple.g:316:7: id= ID
 					{
-					id=(Token)match(input,ID,FOLLOW_ID_in_atom637); 
+					id=(Token)match(input,ID,FOLLOW_ID_in_atom645); 
 
 					          retval.aType = searchSymbol((id!=null?id.getText():null));
 					          retval.reducible = false; // variable o uso de ID no es reducible
@@ -1300,14 +1318,14 @@ public class simpleParser extends Parser {
 					}
 					break;
 				case 5 :
-					// simple.g:302:7: LPAREN e= expr RPAREN
+					// simple.g:320:7: LPAREN e= expr RPAREN
 					{
-					match(input,LPAREN,FOLLOW_LPAREN_in_atom647); 
-					pushFollow(FOLLOW_expr_in_atom651);
+					match(input,LPAREN,FOLLOW_LPAREN_in_atom655); 
+					pushFollow(FOLLOW_expr_in_atom659);
 					e=expr();
 					state._fsp--;
 
-					match(input,RPAREN,FOLLOW_RPAREN_in_atom653); 
+					match(input,RPAREN,FOLLOW_RPAREN_in_atom661); 
 
 					          retval.aType = (e!=null?((simpleParser.expr_return)e).eType:0);
 					          retval.reducible = (e!=null?((simpleParser.expr_return)e).reducible:false);
@@ -1333,20 +1351,20 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "listaArgs"
-	// simple.g:309:1: listaArgs : e1= expr ( ',' e2= expr )* ;
+	// simple.g:327:1: listaArgs : e1= expr ( ',' e2= expr )* ;
 	public final void listaArgs() throws RecognitionException {
 		ParserRuleReturnScope e1 =null;
 		ParserRuleReturnScope e2 =null;
 
 		try {
-			// simple.g:310:5: (e1= expr ( ',' e2= expr )* )
-			// simple.g:310:7: e1= expr ( ',' e2= expr )*
+			// simple.g:328:5: (e1= expr ( ',' e2= expr )* )
+			// simple.g:328:7: e1= expr ( ',' e2= expr )*
 			{
-			pushFollow(FOLLOW_expr_in_listaArgs675);
+			pushFollow(FOLLOW_expr_in_listaArgs683);
 			e1=expr();
 			state._fsp--;
 
-			// simple.g:310:15: ( ',' e2= expr )*
+			// simple.g:328:15: ( ',' e2= expr )*
 			loop17:
 			while (true) {
 				int alt17=2;
@@ -1357,10 +1375,10 @@ public class simpleParser extends Parser {
 
 				switch (alt17) {
 				case 1 :
-					// simple.g:310:16: ',' e2= expr
+					// simple.g:328:16: ',' e2= expr
 					{
-					match(input,27,FOLLOW_27_in_listaArgs678); 
-					pushFollow(FOLLOW_expr_in_listaArgs682);
+					match(input,27,FOLLOW_27_in_listaArgs686); 
+					pushFollow(FOLLOW_expr_in_listaArgs690);
 					e2=expr();
 					state._fsp--;
 
@@ -1388,7 +1406,7 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "relExpr"
-	// simple.g:316:1: relExpr returns [int rType] : a1= expr op= ( '>' | '<' | '>=' | '<=' | '==' | '!=' ) a2= expr ;
+	// simple.g:334:1: relExpr returns [int rType] : a1= expr op= ( '>' | '<' | '>=' | '<=' | '==' | '!=' ) a2= expr ;
 	public final int relExpr() throws RecognitionException {
 		int rType = 0;
 
@@ -1398,10 +1416,10 @@ public class simpleParser extends Parser {
 		ParserRuleReturnScope a2 =null;
 
 		try {
-			// simple.g:317:5: (a1= expr op= ( '>' | '<' | '>=' | '<=' | '==' | '!=' ) a2= expr )
-			// simple.g:317:7: a1= expr op= ( '>' | '<' | '>=' | '<=' | '==' | '!=' ) a2= expr
+			// simple.g:335:5: (a1= expr op= ( '>' | '<' | '>=' | '<=' | '==' | '!=' ) a2= expr )
+			// simple.g:335:7: a1= expr op= ( '>' | '<' | '>=' | '<=' | '==' | '!=' ) a2= expr
 			{
-			pushFollow(FOLLOW_expr_in_relExpr710);
+			pushFollow(FOLLOW_expr_in_relExpr718);
 			a1=expr();
 			state._fsp--;
 
@@ -1414,7 +1432,7 @@ public class simpleParser extends Parser {
 				MismatchedSetException mse = new MismatchedSetException(null,input);
 				throw mse;
 			}
-			pushFollow(FOLLOW_expr_in_relExpr740);
+			pushFollow(FOLLOW_expr_in_relExpr748);
 			a2=expr();
 			state._fsp--;
 
@@ -1443,17 +1461,17 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "doWhileStmt"
-	// simple.g:330:1: doWhileStmt : DO OCURLYB ( sentences )* CCURLYB WHILE LPAREN cond= relExpr RPAREN SEMICOLON ;
+	// simple.g:348:1: doWhileStmt : DO OCURLYB ( sentences )* CCURLYB WHILE LPAREN cond= relExpr RPAREN SEMICOLON ;
 	public final void doWhileStmt() throws RecognitionException {
 		int cond =0;
 
 		try {
-			// simple.g:331:5: ( DO OCURLYB ( sentences )* CCURLYB WHILE LPAREN cond= relExpr RPAREN SEMICOLON )
-			// simple.g:331:7: DO OCURLYB ( sentences )* CCURLYB WHILE LPAREN cond= relExpr RPAREN SEMICOLON
+			// simple.g:349:5: ( DO OCURLYB ( sentences )* CCURLYB WHILE LPAREN cond= relExpr RPAREN SEMICOLON )
+			// simple.g:349:7: DO OCURLYB ( sentences )* CCURLYB WHILE LPAREN cond= relExpr RPAREN SEMICOLON
 			{
-			match(input,DO,FOLLOW_DO_in_doWhileStmt762); 
-			match(input,OCURLYB,FOLLOW_OCURLYB_in_doWhileStmt764); 
-			// simple.g:331:18: ( sentences )*
+			match(input,DO,FOLLOW_DO_in_doWhileStmt770); 
+			match(input,OCURLYB,FOLLOW_OCURLYB_in_doWhileStmt772); 
+			// simple.g:349:18: ( sentences )*
 			loop18:
 			while (true) {
 				int alt18=2;
@@ -1464,9 +1482,9 @@ public class simpleParser extends Parser {
 
 				switch (alt18) {
 				case 1 :
-					// simple.g:331:18: sentences
+					// simple.g:349:18: sentences
 					{
-					pushFollow(FOLLOW_sentences_in_doWhileStmt766);
+					pushFollow(FOLLOW_sentences_in_doWhileStmt774);
 					sentences();
 					state._fsp--;
 
@@ -1478,16 +1496,17 @@ public class simpleParser extends Parser {
 				}
 			}
 
-			match(input,CCURLYB,FOLLOW_CCURLYB_in_doWhileStmt769); 
-			match(input,WHILE,FOLLOW_WHILE_in_doWhileStmt771); 
-			match(input,LPAREN,FOLLOW_LPAREN_in_doWhileStmt773); 
-			pushFollow(FOLLOW_relExpr_in_doWhileStmt777);
+			match(input,CCURLYB,FOLLOW_CCURLYB_in_doWhileStmt777); 
+			match(input,WHILE,FOLLOW_WHILE_in_doWhileStmt779); 
+			match(input,LPAREN,FOLLOW_LPAREN_in_doWhileStmt781); 
+			pushFollow(FOLLOW_relExpr_in_doWhileStmt785);
 			cond=relExpr();
 			state._fsp--;
 
-			match(input,RPAREN,FOLLOW_RPAREN_in_doWhileStmt779); 
-			match(input,SEMICOLON,FOLLOW_SEMICOLON_in_doWhileStmt781); 
+			match(input,RPAREN,FOLLOW_RPAREN_in_doWhileStmt787); 
+			match(input,SEMICOLON,FOLLOW_SEMICOLON_in_doWhileStmt789); 
 
+			        metodoReducible.put(metodoActual, false);
 			          if (cond != 4) {
 			              registrarError("Error: condición de do-while no es booleana");
 			          } else {
@@ -1510,17 +1529,17 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "methodCallStmt"
-	// simple.g:342:1: methodCallStmt : idcall= ID LPAREN ( listaArgs )? RPAREN SEMICOLON ;
+	// simple.g:361:1: methodCallStmt : idcall= ID LPAREN ( listaArgs )? RPAREN SEMICOLON ;
 	public final void methodCallStmt() throws RecognitionException {
 		Token idcall=null;
 
 		try {
-			// simple.g:343:5: (idcall= ID LPAREN ( listaArgs )? RPAREN SEMICOLON )
-			// simple.g:343:7: idcall= ID LPAREN ( listaArgs )? RPAREN SEMICOLON
+			// simple.g:362:5: (idcall= ID LPAREN ( listaArgs )? RPAREN SEMICOLON )
+			// simple.g:362:7: idcall= ID LPAREN ( listaArgs )? RPAREN SEMICOLON
 			{
-			idcall=(Token)match(input,ID,FOLLOW_ID_in_methodCallStmt804); 
-			match(input,LPAREN,FOLLOW_LPAREN_in_methodCallStmt806); 
-			// simple.g:343:24: ( listaArgs )?
+			idcall=(Token)match(input,ID,FOLLOW_ID_in_methodCallStmt812); 
+			match(input,LPAREN,FOLLOW_LPAREN_in_methodCallStmt814); 
+			// simple.g:362:24: ( listaArgs )?
 			int alt19=2;
 			int LA19_0 = input.LA(1);
 			if ( ((LA19_0 >= CFLOAT && LA19_0 <= CINT)||LA19_0==ID||LA19_0==LPAREN) ) {
@@ -1528,9 +1547,9 @@ public class simpleParser extends Parser {
 			}
 			switch (alt19) {
 				case 1 :
-					// simple.g:343:24: listaArgs
+					// simple.g:362:24: listaArgs
 					{
-					pushFollow(FOLLOW_listaArgs_in_methodCallStmt808);
+					pushFollow(FOLLOW_listaArgs_in_methodCallStmt816);
 					listaArgs();
 					state._fsp--;
 
@@ -1539,10 +1558,16 @@ public class simpleParser extends Parser {
 
 			}
 
-			match(input,RPAREN,FOLLOW_RPAREN_in_methodCallStmt811); 
-			match(input,SEMICOLON,FOLLOW_SEMICOLON_in_methodCallStmt813); 
+			match(input,RPAREN,FOLLOW_RPAREN_in_methodCallStmt819); 
+			match(input,SEMICOLON,FOLLOW_SEMICOLON_in_methodCallStmt821); 
 
 			          registrarLlamadaMetodo((idcall!=null?idcall.getText():null));
+			          // Si llama un método no reducible, el actual deja de ser reducible
+			             Boolean red = metodoReducible.get((idcall!=null?idcall.getText():null));
+			             if (red != null && red == false) {
+			            metodoReducible.put(metodoActual, false);
+			            }
+
 			      
 			}
 
@@ -1560,10 +1585,10 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "accessModif"
-	// simple.g:352:1: accessModif : ( PUBLIC | PRIVATE | PROTECTED );
+	// simple.g:377:1: accessModif : ( PUBLIC | PRIVATE | PROTECTED );
 	public final void accessModif() throws RecognitionException {
 		try {
-			// simple.g:352:13: ( PUBLIC | PRIVATE | PROTECTED )
+			// simple.g:377:13: ( PUBLIC | PRIVATE | PROTECTED )
 			// simple.g:
 			{
 			if ( (input.LA(1) >= PRIVATE && input.LA(1) <= PUBLIC) ) {
@@ -1593,13 +1618,13 @@ public class simpleParser extends Parser {
 
 
 	// $ANTLR start "type"
-	// simple.g:353:1: type : ( INT | DOUBLE | BOOLEAN );
+	// simple.g:378:1: type : ( INT | DOUBLE | BOOLEAN );
 	public final simpleParser.type_return type() throws RecognitionException {
 		simpleParser.type_return retval = new simpleParser.type_return();
 		retval.start = input.LT(1);
 
 		try {
-			// simple.g:353:13: ( INT | DOUBLE | BOOLEAN )
+			// simple.g:378:13: ( INT | DOUBLE | BOOLEAN )
 			// simple.g:
 			{
 			if ( input.LA(1)==BOOLEAN||input.LA(1)==DOUBLE||input.LA(1)==INT ) {
@@ -1669,49 +1694,49 @@ public class simpleParser extends Parser {
 	public static final BitSet FOLLOW_27_in_private_declar383 = new BitSet(new long[]{0x0000000000001000L});
 	public static final BitSet FOLLOW_ID_in_private_declar387 = new BitSet(new long[]{0x0000000008200000L});
 	public static final BitSet FOLLOW_SEMICOLON_in_private_declar399 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ID_in_assigment419 = new BitSet(new long[]{0x0000000100000000L});
-	public static final BitSet FOLLOW_32_in_assigment421 = new BitSet(new long[]{0x00000000000050C0L});
-	public static final BitSet FOLLOW_expr_in_assigment425 = new BitSet(new long[]{0x0000000000200000L});
-	public static final BitSet FOLLOW_SEMICOLON_in_assigment427 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_multExpr_in_expr462 = new BitSet(new long[]{0x0000000014000002L});
-	public static final BitSet FOLLOW_set_in_expr476 = new BitSet(new long[]{0x00000000000050C0L});
-	public static final BitSet FOLLOW_multExpr_in_expr486 = new BitSet(new long[]{0x0000000014000002L});
-	public static final BitSet FOLLOW_RETURN_in_returnStmt507 = new BitSet(new long[]{0x0000000000200000L});
-	public static final BitSet FOLLOW_SEMICOLON_in_returnStmt509 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_RETURN_in_returnStmt517 = new BitSet(new long[]{0x00000000000050C0L});
-	public static final BitSet FOLLOW_expr_in_returnStmt519 = new BitSet(new long[]{0x0000000000200000L});
-	public static final BitSet FOLLOW_SEMICOLON_in_returnStmt521 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_atom_in_multExpr546 = new BitSet(new long[]{0x0000000022000002L});
-	public static final BitSet FOLLOW_set_in_multExpr560 = new BitSet(new long[]{0x00000000000050C0L});
-	public static final BitSet FOLLOW_atom_in_multExpr570 = new BitSet(new long[]{0x0000000022000002L});
-	public static final BitSet FOLLOW_CINT_in_atom596 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_CFLOAT_in_atom606 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ID_in_atom618 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_LPAREN_in_atom620 = new BitSet(new long[]{0x00000000001050C0L});
-	public static final BitSet FOLLOW_listaArgs_in_atom622 = new BitSet(new long[]{0x0000000000100000L});
-	public static final BitSet FOLLOW_RPAREN_in_atom625 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ID_in_atom637 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_LPAREN_in_atom647 = new BitSet(new long[]{0x00000000000050C0L});
-	public static final BitSet FOLLOW_expr_in_atom651 = new BitSet(new long[]{0x0000000000100000L});
-	public static final BitSet FOLLOW_RPAREN_in_atom653 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_expr_in_listaArgs675 = new BitSet(new long[]{0x0000000008000002L});
-	public static final BitSet FOLLOW_27_in_listaArgs678 = new BitSet(new long[]{0x00000000000050C0L});
-	public static final BitSet FOLLOW_expr_in_listaArgs682 = new BitSet(new long[]{0x0000000008000002L});
-	public static final BitSet FOLLOW_expr_in_relExpr710 = new BitSet(new long[]{0x0000000EC1000000L});
-	public static final BitSet FOLLOW_set_in_relExpr714 = new BitSet(new long[]{0x00000000000050C0L});
-	public static final BitSet FOLLOW_expr_in_relExpr740 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_DO_in_doWhileStmt762 = new BitSet(new long[]{0x0000000000008000L});
-	public static final BitSet FOLLOW_OCURLYB_in_doWhileStmt764 = new BitSet(new long[]{0x0000000000083A30L});
-	public static final BitSet FOLLOW_sentences_in_doWhileStmt766 = new BitSet(new long[]{0x0000000000083A30L});
-	public static final BitSet FOLLOW_CCURLYB_in_doWhileStmt769 = new BitSet(new long[]{0x0000000000400000L});
-	public static final BitSet FOLLOW_WHILE_in_doWhileStmt771 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_LPAREN_in_doWhileStmt773 = new BitSet(new long[]{0x00000000000050C0L});
-	public static final BitSet FOLLOW_relExpr_in_doWhileStmt777 = new BitSet(new long[]{0x0000000000100000L});
-	public static final BitSet FOLLOW_RPAREN_in_doWhileStmt779 = new BitSet(new long[]{0x0000000000200000L});
-	public static final BitSet FOLLOW_SEMICOLON_in_doWhileStmt781 = new BitSet(new long[]{0x0000000000000002L});
-	public static final BitSet FOLLOW_ID_in_methodCallStmt804 = new BitSet(new long[]{0x0000000000004000L});
-	public static final BitSet FOLLOW_LPAREN_in_methodCallStmt806 = new BitSet(new long[]{0x00000000001050C0L});
-	public static final BitSet FOLLOW_listaArgs_in_methodCallStmt808 = new BitSet(new long[]{0x0000000000100000L});
-	public static final BitSet FOLLOW_RPAREN_in_methodCallStmt811 = new BitSet(new long[]{0x0000000000200000L});
-	public static final BitSet FOLLOW_SEMICOLON_in_methodCallStmt813 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_ID_in_assigment427 = new BitSet(new long[]{0x0000000100000000L});
+	public static final BitSet FOLLOW_32_in_assigment429 = new BitSet(new long[]{0x00000000000050C0L});
+	public static final BitSet FOLLOW_expr_in_assigment433 = new BitSet(new long[]{0x0000000000200000L});
+	public static final BitSet FOLLOW_SEMICOLON_in_assigment435 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_multExpr_in_expr470 = new BitSet(new long[]{0x0000000014000002L});
+	public static final BitSet FOLLOW_set_in_expr484 = new BitSet(new long[]{0x00000000000050C0L});
+	public static final BitSet FOLLOW_multExpr_in_expr494 = new BitSet(new long[]{0x0000000014000002L});
+	public static final BitSet FOLLOW_RETURN_in_returnStmt515 = new BitSet(new long[]{0x0000000000200000L});
+	public static final BitSet FOLLOW_SEMICOLON_in_returnStmt517 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_RETURN_in_returnStmt525 = new BitSet(new long[]{0x00000000000050C0L});
+	public static final BitSet FOLLOW_expr_in_returnStmt527 = new BitSet(new long[]{0x0000000000200000L});
+	public static final BitSet FOLLOW_SEMICOLON_in_returnStmt529 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_atom_in_multExpr554 = new BitSet(new long[]{0x0000000022000002L});
+	public static final BitSet FOLLOW_set_in_multExpr568 = new BitSet(new long[]{0x00000000000050C0L});
+	public static final BitSet FOLLOW_atom_in_multExpr578 = new BitSet(new long[]{0x0000000022000002L});
+	public static final BitSet FOLLOW_CINT_in_atom604 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_CFLOAT_in_atom614 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_ID_in_atom626 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_LPAREN_in_atom628 = new BitSet(new long[]{0x00000000001050C0L});
+	public static final BitSet FOLLOW_listaArgs_in_atom630 = new BitSet(new long[]{0x0000000000100000L});
+	public static final BitSet FOLLOW_RPAREN_in_atom633 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_ID_in_atom645 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_LPAREN_in_atom655 = new BitSet(new long[]{0x00000000000050C0L});
+	public static final BitSet FOLLOW_expr_in_atom659 = new BitSet(new long[]{0x0000000000100000L});
+	public static final BitSet FOLLOW_RPAREN_in_atom661 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_expr_in_listaArgs683 = new BitSet(new long[]{0x0000000008000002L});
+	public static final BitSet FOLLOW_27_in_listaArgs686 = new BitSet(new long[]{0x00000000000050C0L});
+	public static final BitSet FOLLOW_expr_in_listaArgs690 = new BitSet(new long[]{0x0000000008000002L});
+	public static final BitSet FOLLOW_expr_in_relExpr718 = new BitSet(new long[]{0x0000000EC1000000L});
+	public static final BitSet FOLLOW_set_in_relExpr722 = new BitSet(new long[]{0x00000000000050C0L});
+	public static final BitSet FOLLOW_expr_in_relExpr748 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_DO_in_doWhileStmt770 = new BitSet(new long[]{0x0000000000008000L});
+	public static final BitSet FOLLOW_OCURLYB_in_doWhileStmt772 = new BitSet(new long[]{0x0000000000083A30L});
+	public static final BitSet FOLLOW_sentences_in_doWhileStmt774 = new BitSet(new long[]{0x0000000000083A30L});
+	public static final BitSet FOLLOW_CCURLYB_in_doWhileStmt777 = new BitSet(new long[]{0x0000000000400000L});
+	public static final BitSet FOLLOW_WHILE_in_doWhileStmt779 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_LPAREN_in_doWhileStmt781 = new BitSet(new long[]{0x00000000000050C0L});
+	public static final BitSet FOLLOW_relExpr_in_doWhileStmt785 = new BitSet(new long[]{0x0000000000100000L});
+	public static final BitSet FOLLOW_RPAREN_in_doWhileStmt787 = new BitSet(new long[]{0x0000000000200000L});
+	public static final BitSet FOLLOW_SEMICOLON_in_doWhileStmt789 = new BitSet(new long[]{0x0000000000000002L});
+	public static final BitSet FOLLOW_ID_in_methodCallStmt812 = new BitSet(new long[]{0x0000000000004000L});
+	public static final BitSet FOLLOW_LPAREN_in_methodCallStmt814 = new BitSet(new long[]{0x00000000001050C0L});
+	public static final BitSet FOLLOW_listaArgs_in_methodCallStmt816 = new BitSet(new long[]{0x0000000000100000L});
+	public static final BitSet FOLLOW_RPAREN_in_methodCallStmt819 = new BitSet(new long[]{0x0000000000200000L});
+	public static final BitSet FOLLOW_SEMICOLON_in_methodCallStmt821 = new BitSet(new long[]{0x0000000000000002L});
 }
