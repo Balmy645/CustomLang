@@ -1,6 +1,9 @@
 # CustomLang
 A repertory made to practice the creation of a Lang compilator using ANTLR-3.5.2 and Java. 
 
+# ¿Como Usar?
+
+Solamente Importa el archivo .zip `IDEV1` a NetBeans como un proyecto nuevo y ejecuta la main class para abrir el IDE custom.
 
 # Tabla de lo que soporta la gramática
 
